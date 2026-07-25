@@ -555,6 +555,8 @@ function BatteryGraphWidget:init()
 
     if Device:hasKeys() then
         self.key_events.Close = { { Device.input.group.Back } }
+        -- Non-touch devices cannot reach the title bar's menu icon, so bind it to the Menu key
+        self.key_events.ShowViewMenu = { { "Menu" } }
     end
     if Device:isTouchDevice() then
         local GestureRange = require("ui/gesturerange")
@@ -583,6 +585,11 @@ end
 
 function BatteryGraphWidget:onSwipe()
     self:onClose()
+    return true
+end
+
+function BatteryGraphWidget:onShowViewMenu()
+    self:showViewMenu()
     return true
 end
 
